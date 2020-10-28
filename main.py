@@ -1,3 +1,7 @@
-from util.crawler import Crawler
+from util.fetcher import Fetcher
+from matplotlib import pyplot as pt
 
-dut = Crawler("Austria")
+data = Fetcher.countryVCountryActive(0, "active", "austria")
+
+
+
