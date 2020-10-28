@@ -1,2 +1,3 @@
 # RonaCrawl
-A Crawler for [API URL]To be used in a Discord Bot
+A Crawler for https://coronavirus-19-api.herokuapp.com/ To be used in a Discord Bot
+
