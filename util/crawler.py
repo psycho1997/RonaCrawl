@@ -38,7 +38,6 @@ class Crawler:
         except FileNotFoundError:
             to_write[self.lastUpdated] = json_dict_resp
 
-        print(to_write)
         with open(self.dest, "w") as file:
             json.dump(to_write, file, indent=4)
 
