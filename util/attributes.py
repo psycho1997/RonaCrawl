@@ -7,3 +7,5 @@ class Attributes(Enum):
     CASES = "active"
     DEATHS = "deaths"
     STATS = "latest_data"
+
+

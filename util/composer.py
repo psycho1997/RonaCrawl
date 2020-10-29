@@ -12,22 +12,36 @@ class Composer:
         self.x = []
         self.date = date
         self.dict = {}
-        self.atr = atr
         self.len = math.inf
-        if atr == Attributes.STATS.value:
+
+        if atr == Attributes.STATS.name:
             stats = Crawler.getStatsByCountry(countrys)
+            self.atr = Attributes.STATS.value
             self.saveStats(stats)
         else:
+            if atr == Attributes.DEATHS.name:
+                self.atr = Attributes.DEATHS.value
+            elif atr == Attributes.CASES.name:
+                self.atr = Attributes.CASES.value
+            elif atr == Attributes.NEWCASES.name:
+                self.atr = Attributes.NEWCASES.value
+            else:
+                raise AttributeError
+
             for country in countrys:
                 self.addData(country)
             self.printGraph()
 
     def addData(self, country):
+        if self.atr == Attributes.STATS:
+            return False
+
         x, y = Crawler.getDataByCoutrySinceDate(self.atr, country, self.date)
         self.dict[country] = y
         if len(x) < self.len:
             self.len = len(x)
             self.x = x
+        return True
 
 
     def printGraph(self):
@@ -41,12 +55,12 @@ class Composer:
                 label.set_visible(False)
 
         plt.savefig("data/output.png")
-        plt.show()
+       # plt.show()
 
     def saveStats(self, stats):
-
-        stat_dict = json.dumps(stats)
+        print(stats)
         template = Template("__**Stats for $name**__\n"
+                            "  _last update: $date _\n"
                             "**Today**\n"
                             "```"
                             "- Deaths: $deaths\n"
@@ -67,6 +81,7 @@ class Composer:
                             "```")
         s = template.substitute(
             name=stats["Name"],
+            date=stats["Last Updated"],
             deaths=stats["today"]["deaths"],
             confirmed=stats["today"]["confirmed"],
             totaldeaths=stats["current Data"]["deaths"],
@@ -77,7 +92,7 @@ class Composer:
             rec=stats["calculated Data"]["recovery_rate"],
             cpm=stats["calculated Data"]["cases_per_million_population"])
 
-        with open("data/stats_%s.md" % stats["Name"], 'w') as file:
+        with open("data/stats.md" , 'w') as file:
             file.writelines(s)
 
 if __name__ == '__main__':
