@@ -5,7 +5,7 @@ import discord
 from datetime import  datetime
 import functools
 
-token = "NjY1MTY4Mzc1MTUyMTE1NzEy.XhhsUg.lG0WvMcdk6dSSe4jaEn6ZDzq6g0"
+token = ""
 bot = commands.Bot(command_prefix='!')
 comp = ""
 
