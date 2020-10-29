@@ -8,6 +8,7 @@ import json
 
 token = "NjY1MTY4Mzc1MTUyMTE1NzEy.XhhsUg.lG0WvMcdk6dSSe4jaEn6ZDzq6g0"
 bot = commands.Bot(command_prefix='!')
+bot.remove_command('help')
 comp = ""
 
 
@@ -38,12 +39,14 @@ async def rona(ctx, attr, *a):
             await sendHelp(ctx)
 
 
-@bot.command
+@bot.command()
 async def add(ctx, countries):
-    for country in countries:
-        if not comp.addData(country):
-            await ctx.channel.send("the last request wasn't a graph, this function only works with graphs, sorry :)")
-            return
+    global comp
+    print(countries)
+    if comp == "" or not comp.addData(countries):
+        await ctx.channel.send("the last request wasn't a graph, this function only works with graphs, sorry :)")
+        return
+    comp.printGraph()
     await renderGraph(ctx)
 
 
@@ -51,10 +54,21 @@ async def add(ctx, countries):
 async def country(ctx, c):
     with open("data/iso_countries.json") as file:
         json_dict = json.load(file)
-    for k, v in json_dict:
-        if c.lower() == v.lower():
-            await ctx.channel.send(k["alpha-2"])
+    print(type(json_dict))
+    for di in json_dict:
+        if c.lower() == di["name"].lower():
+            await ctx.channel.send(di["alpha-2"])
 
+@bot.command()
+async def git(ctx):
+    await ctx.channel.send("https://github.com/psycho1997/RonaCrawl")
+
+@bot.command()
+async def help(ctx):
+    with open("data/help.md")as file:
+        lines = file.readlines()
+        msg = functools.reduce(lambda x, y: x + y, lines )
+    await ctx.channel.send(msg)
 
 @bot.event
 async def on_reaction_add(reaction, user):
