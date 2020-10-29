@@ -25,7 +25,7 @@ class Crawler:
 
     @staticmethod
     def getDataByCoutrySinceDate(d, country, date):
-        name = "newCases_by_Country_%s_%s" % (country, datetime.now().timestamp())
+        name = "%s_by_Country_%s_%s" % (d, country, datetime.now().timestamp())
         url = "https://corona-api.com/countries/%s" % country
         Crawler.getdata(url, name)
         with open("data/%s.json" % name, "r") as file:
@@ -33,18 +33,28 @@ class Crawler:
             data = json_dict["data"]["timeline"]
             x_axis = list(map(lambda x: x["date"], filter(lambda n: n["date"] > date, data)))
             y_axis = list(map(lambda x: x[d], filter(lambda n: n["date"] > date, data)))
-        #os.remove("data/%s.json" % name)
+        os.remove("data/%s.json" % name)
         x_axis.reverse()
         y_axis.reverse()
         return x_axis, y_axis
 
+    @staticmethod
+    def getStatsByCountry(country):
+        name = "stats_of_Country_%s_%s" % (country, datetime.now().timestamp())
+        url = "https://corona-api.com/countries/%s" % country
+        Crawler.getdata(url, name)
+        with open("data/%s.json" % name, "r") as file:
+            json_dict = json.load(file)
+            ret = {"Name": json_dict["data"]["name"]}
+            date = json_dict["data"]["updated_at"]
+            ret["Last Updated"] = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%d.%m.%Y %H:%M")
+            ret["today"] = json_dict["data"]["today"]
+            latest_data = dict(json_dict["data"]["latest_data"])
+            calculated = latest_data.pop("calculated")
+            ret["current Data"] = latest_data
+            ret["calculated Data"] = calculated
+        os.remove("data/%s.json" % name)
+        return ret
 
 
 
-
-
-if __name__ == '__main__':
-    print("happens")
-    x, y = Crawler.newCasesByCountrySinceDate("de", "2020-07-27T02:58:43.000Z")
-    plt.plot_date(x, y)
-    plt.show()
