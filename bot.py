@@ -4,13 +4,15 @@ from discord.ext import commands
 import discord
 from datetime import  datetime
 import functools
+import json
 
 token = "NjY1MTY4Mzc1MTUyMTE1NzEy.XhhsUg.lG0WvMcdk6dSSe4jaEn6ZDzq6g0"
 bot = commands.Bot(command_prefix='!')
 comp = ""
 
-@bot.event
-async def on_message(msg):
+
+@bot.listen('on_message')
+async def autoreact(msg):
     if msg.author == bot.user:
         await msg.add_reaction('\U0001F5D1')
 
@@ -32,6 +34,9 @@ async def rona(ctx, attr, *a):
             await renderGraph(ctx)
         except AttributeError:
             await sendHelp(ctx)
+        except IndexError:
+            await sendHelp(ctx)
+
 
 @bot.command
 async def add(ctx, countries):
@@ -40,6 +45,15 @@ async def add(ctx, countries):
             await ctx.channel.send("the last request wasn't a graph, this function only works with graphs, sorry :)")
             return
     await renderGraph(ctx)
+
+
+@bot.command()
+async def country(ctx, c):
+    with open("data/iso_countries.json") as file:
+        json_dict = json.load(file)
+    for k, v in json_dict:
+        if c.lower() == v.lower():
+            await ctx.channel.send(k["alpha-2"])
 
 
 @bot.event
@@ -62,6 +76,11 @@ async def renderText(ctx):
 async def renderGraph(ctx):
     file = discord.File("data/output.png")
     await ctx.channel.send(file=file)
+
+
+@bot.event
+async def on_ready():
+    print('We have logged in as {0}'.format(bot.user))
 
 
 bot.run(token)

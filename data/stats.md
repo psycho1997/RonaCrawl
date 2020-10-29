@@ -1,15 +1,15 @@
 __**Stats for Germany**__
-  _last update: 29.10.2020 12:41 _
+  _last update: 29.10.2020 14:43 _
 **Today**
-```- Deaths: 12
-- infected: 2734
+```- Deaths: 28
+- infected: 6410
 ```**Data**
-```- Deaths: 10371
-- Infected: 482355
+```- Deaths: 10387
+- Infected: 486031
 - Recovered: 339200 
-- Critical: 132784
+- Critical: 136444
 ```**Calculated**
-```- Death Rate: 2.1500761886991944%
-- Recovery Rate: 70.32165106612351%
-- Cases Per Million: 1569
+```- Death Rate: 2.137106480862332%
+- Recovery Rate: 69.78978707119504%
+- Cases Per Million: 1696
 ```
