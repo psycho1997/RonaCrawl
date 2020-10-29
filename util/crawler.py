@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 import json
 import matplotlib.pyplot as plt
+import os
 
 
 class Crawler:
@@ -23,19 +24,21 @@ class Crawler:
             json.dump(json_obj, file, indent=4)
 
     @staticmethod
-    def newCasesByCountrySinceDate(country, date):
-        name = ("newCases_by_Country_%s_%s") % (country, datetime.now().timestamp())
-        url = ("https://corona-api.com/countries/%s") % country
+    def getDataByCoutrySinceDate(d, country, date):
+        name = "newCases_by_Country_%s_%s" % (country, datetime.now().timestamp())
+        url = "https://corona-api.com/countries/%s" % country
         Crawler.getdata(url, name)
         with open("data/%s.json" % name, "r") as file:
             json_dict = json.load(file)
             data = json_dict["data"]["timeline"]
             x_axis = list(map(lambda x: x["date"], filter(lambda n: n["date"] > date, data)))
-            y_axis = list(map(lambda x: x["new_confirmed"], filter(lambda n: n["date"] > date, data)))
-
+            y_axis = list(map(lambda x: x[d], filter(lambda n: n["date"] > date, data)))
+        #os.remove("data/%s.json" % name)
         x_axis.reverse()
         y_axis.reverse()
         return x_axis, y_axis
+
+
 
 
 
