@@ -1,7 +1,10 @@
-from util.fetcher import Fetcher
-from matplotlib import pyplot as pt
+from util.crawler import Crawler
+import matplotlib.pyplot as plt
 
-data = Fetcher.countryVCountryActive(0, "active", "austria")
+x, y = Crawler.newCasesByCountrySinceDate("au", "2020-07-27T02:58:43.000Z")
+plt.plot_date(x, y, 'b-')
+plt.show()
+
 
 
 

@@ -1,47 +1,47 @@
 import requests
 from datetime import datetime
 import json
+import matplotlib.pyplot as plt
 
 
 class Crawler:
 
-    def __init__(self, c):
-        self.country = c.lower()
-        self.url = "https://coronavirus-19-api.herokuapp.com/countries/%s" % self.country
-        self.folder = "data"
-        self.lastUpdated = 0
-        self.dest = "%s/cases_%s.json" % (self.folder,self.country)
-        self.getdata()
-
-    def getdata(self):
-        # not needed but i'll kepp it for now
-        payload = {}
-        headers = {}
-
+    @staticmethod
+    def getdata(url, name):
+        folder = "data"
         try:
-            response = requests.request("GET", self.url, headers=headers, data=payload)
+            response = requests.request("GET", url)
         except requests.exceptions.RequestException:
-            with open("%s/ErrorLog.txt" % self.folder, 'a') as file:
-                file.write("%s RequestException: %s\n"% (datetime.now(), self.country))
+            with open("%s/ErrorLog.txt" % folder, 'a') as file:
+                file.write("%s RequestException: %s\n"% (datetime.now(), url))
             return
 
-        self.lastUpdated = datetime.now().timestamp()
         json_string_resp = response.content.decode("utf-8")
-        json_dict_resp = json.loads(json_string_resp)
-        to_write = {}
+        json_obj = json.loads(json_string_resp)
+        # print(type(json_obj[0]))
+        with open("%s/%s.json" % (folder, name), "w") as file:
+            json.dump(json_obj, file, indent=4)
 
-        try:
-            with open(self.dest, "r") as file:
-                old_obj = json.load(file)
-                old_obj[self.lastUpdated] = json_dict_resp
-                to_write = old_obj
-        except FileNotFoundError:
-            to_write[self.lastUpdated] = json_dict_resp
+    @staticmethod
+    def newCasesByCountrySinceDate(country, date):
+        name = ("newCases_by_Country_%s_%s") % (country, datetime.now().timestamp())
+        url = ("https://corona-api.com/countries/%s") % country
+        Crawler.getdata(url, name)
+        with open("data/%s.json" % name, "r") as file:
+            json_dict = json.load(file)
+            data = json_dict["data"]["timeline"]
+            x_axis = list(map(lambda x: x["date"], filter(lambda n: n["date"] > date, data)))
+            y_axis = list(map(lambda x: x["new_confirmed"], filter(lambda n: n["date"] > date, data)))
 
-        with open(self.dest, "w") as file:
-            json.dump(to_write, file, indent=4)
+        x_axis.reverse()
+        y_axis.reverse()
+        return x_axis, y_axis
+
+
 
 
 if __name__ == '__main__':
-    country = "austria"
-    dut = Crawler(country)
+    print("happens")
+    x, y = Crawler.newCasesByCountrySinceDate("de", "2020-07-27T02:58:43.000Z")
+    plt.plot_date(x, y)
+    plt.show()
