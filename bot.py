@@ -6,7 +6,9 @@ from datetime import  datetime
 import functools
 import json
 
-token = ""
+with open("data/settings.json") as file:
+    json_dict = json.load(file)
+token = json_dict["token"]
 bot = commands.Bot(command_prefix='!')
 bot.remove_command('help')
 comp = ""
@@ -51,13 +53,14 @@ async def add(ctx, countries):
 
 
 @bot.command()
-async def country(ctx, c):
+async def country(ctx, *, c):
     with open("data/iso_countries.json") as file:
         json_dict = json.load(file)
     print(type(json_dict))
     for di in json_dict:
         if c.lower() == di["name"].lower():
             await ctx.channel.send(di["alpha-2"])
+
 
 @bot.command()
 async def git(ctx):
