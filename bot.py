@@ -1,6 +1,8 @@
 from util.composer import Composer
 from util.attributes import Attributes
 from discord.ext import commands
+from poker.game import Game
+from discord.utils import get
 import discord
 from datetime import  datetime
 import functools
@@ -61,6 +63,14 @@ async def country(ctx, *, c):
         if c.lower() == di["name"].lower():
             await ctx.channel.send(di["alpha-2"])
 
+#@bot.command()
+async def test(ctx):
+    dut = Game(100, 10)
+    dut.add_player(ctx.author)
+    await dut.start(ctx)
+    await dut.maketurn(ctx)
+
+
 
 @bot.command()
 async def git(ctx):
@@ -75,7 +85,7 @@ async def help(ctx):
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    if user != bot.user:
+    if user != bot.user and reaction == '$wastebasket':
         await reaction.message.delete()
 
 
