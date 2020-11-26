@@ -7,6 +7,7 @@ class Player():
         self.money = money
         self.hand = []
         self.current_pot = 0
+        self.all_in = False
 
 
     def set_hand(self, hand):
@@ -19,10 +20,16 @@ class Player():
 
     def add_money(self, n):
         self.money += n
+        self.all_in = False
 
     def sub_money(self, n):
-        self.money -= n
-        self.current_pot += n
+        self.money -= int(n)
+        self.current_pot += int(n)
+        if self.money < 0:
+            self.current_pot -= self.money
+            self.money = 0
+            self.all_in = True
+
 
     def next_round(self):
         self.hand = []

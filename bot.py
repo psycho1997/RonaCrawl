@@ -8,6 +8,8 @@ from datetime import  datetime
 import functools
 import json
 
+dut = None
+
 with open("data/settings.json") as file:
     json_dict = json.load(file)
 token = json_dict["token"]
@@ -19,7 +21,7 @@ comp = ""
 @bot.listen('on_message')
 async def autoreact(msg):
     if msg.author == bot.user:
-        await msg.add_reaction('\U0001F5D1')
+        await msg.add_reaction('🗑')
 
 
 @bot.command()
@@ -63,14 +65,42 @@ async def country(ctx, *, c):
         if c.lower() == di["name"].lower():
             await ctx.channel.send(di["alpha-2"])
 
-#@bot.command()
-async def test(ctx):
-    dut = Game(100, 10)
+@bot.command()
+async def poker(ctx, money, small):
+    global dut
+    dut = Game(int(money), int(small))
     dut.add_player(ctx.author)
+
+
+@bot.command()
+async def start(ctx):
+    global dut
     await dut.start(ctx)
-    await dut.maketurn(ctx)
+    await dut.print_turn(ctx)
 
 
+@bot.command()
+async def cont(ctx):
+    global dut
+    await dut.print_turn(ctx)
+
+
+@bot.command()
+async def join(ctx):
+    global dut
+    dut.add_player(ctx.author)
+
+# TODO raise
+@bot.command()
+async def r(ctx, n):
+    if dut.raise_mode:
+        await dut.raise_pot(ctx, n)
+
+# TODO allin
+@bot.command()
+async def allin(ctx, n):
+    if dut.raise_mode():
+        await dut.raise_pot(ctx, dut.get_current_player().money)
 
 @bot.command()
 async def git(ctx):
@@ -85,9 +115,26 @@ async def help(ctx):
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    if user != bot.user and reaction == '$wastebasket':
+    member = dut.get_current_player().member
+    if user != bot.user and str(reaction) == "🗑":
         await reaction.message.delete()
-
+    elif user == member and str(reaction) == '\U00002B06':
+        await dut.print_raise(reaction.message)
+    elif dut.raise_mode:
+        if user == member and str(reaction) == '⚪':
+            await dut.raise_pot(reaction.message, 1)
+        elif user == member and str(reaction) == '🔴':
+            await dut.raise_pot(reaction.message, 5)
+        elif user == member and str(reaction) == '🔵':
+            await dut.raise_pot(reaction.message, 10)
+        elif user == member and str(reaction) == '🟢':
+            await dut.raise_pot(reaction.message, 25)
+        elif user == member and str(reaction) == '🟤':
+            await dut.raise_pot(reaction.message, 100)
+    elif user == member and str(reaction) == '✔':
+        await dut.print_check(reaction.message)
+    elif user == member and str(reaction) == '❌':
+        await dut.print_fold(reaction.message)
 
 async def sendHelp(ctx):
     await ctx.channel.send("Wrong usage! Use !help to see a list of Commands")
@@ -108,6 +155,8 @@ async def renderGraph(ctx):
 @bot.event
 async def on_ready():
     print('We have logged in as {0}'.format(bot.user))
+
+
 
 
 bot.run(token)
