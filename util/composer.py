@@ -55,7 +55,7 @@ class Composer:
             if n % every_nth != 0:
                 label.set_visible(False)
 
-        plt.savefig(os.getcwd() + "/data/output.png")
+        plt.savefig(os.getcwd() + "/RonaCrawl/data/output.png")
        # plt.show()
 
     def saveStats(self, stats):
@@ -93,7 +93,7 @@ class Composer:
             rec=stats["calculated Data"]["recovery_rate"],
             cpm=stats["calculated Data"]["cases_per_million_population"])
 
-        with open(os.getcwd() + "/data/stats.md" , 'w') as file:
+        with open(os.getcwd() + "/RonaCrawl/data/stats.md" , 'w') as file:
             file.writelines(s)
 
 if __name__ == '__main__':
