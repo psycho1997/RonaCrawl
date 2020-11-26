@@ -59,7 +59,7 @@ class Composer:
        # plt.show()
 
     def saveStats(self, stats):
-        print(stats)
+       # print(stats)
         template = Template("__**Stats for $name**__\n"
                             "  _last update: $date _\n"
                             "**Today**\n"
