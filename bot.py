@@ -70,6 +70,8 @@ async def poker(ctx, money, small):
     global dut
     dut = Game(int(money), int(small))
     dut.add_player(ctx.author)
+    await ctx.channel.send("A pokergame was started!\n"
+                           "enter !join to join")
 
 
 @bot.command()
@@ -89,6 +91,7 @@ async def cont(ctx):
 async def join(ctx):
     global dut
     dut.add_player(ctx.author)
+    await ctx.channel.send(ctx.author.mention + " was added to the game")
 
 # TODO raise
 @bot.command()
@@ -115,26 +118,27 @@ async def help(ctx):
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    member = dut.get_current_player().member
     if user != bot.user and str(reaction) == "🗑":
         await reaction.message.delete()
-    elif user == member and str(reaction) == '\U00002B06':
-        await dut.print_raise(reaction.message)
-    elif dut.raise_mode:
-        if user == member and str(reaction) == '⚪':
-            await dut.raise_pot(reaction.message, 1)
-        elif user == member and str(reaction) == '🔴':
-            await dut.raise_pot(reaction.message, 5)
-        elif user == member and str(reaction) == '🔵':
-            await dut.raise_pot(reaction.message, 10)
-        elif user == member and str(reaction) == '🟢':
-            await dut.raise_pot(reaction.message, 25)
-        elif user == member and str(reaction) == '🟤':
-            await dut.raise_pot(reaction.message, 100)
-    elif user == member and str(reaction) == '✔':
-        await dut.print_check(reaction.message)
-    elif user == member and str(reaction) == '❌':
-        await dut.print_fold(reaction.message)
+    elif user != bot.user and str(dut) != str(None):
+        member = dut.get_current_player().member
+        if user == member and str(reaction) == '\U00002B06':
+            await dut.print_raise(reaction.message)
+        elif dut.raise_mode:
+            if user == member and str(reaction) == '⚪':
+                await dut.raise_pot(reaction.message, 1)
+            elif user == member and str(reaction) == '🔴':
+                await dut.raise_pot(reaction.message, 5)
+            elif user == member and str(reaction) == '🔵':
+                await dut.raise_pot(reaction.message, 10)
+            elif user == member and str(reaction) == '🟢':
+                await dut.raise_pot(reaction.message, 25)
+            elif user == member and str(reaction) == '🟤':
+                await dut.raise_pot(reaction.message, 100)
+        elif user == member and str(reaction) == '✔':
+            await dut.print_check(reaction.message)
+        elif user == member and str(reaction) == '❌':
+            await dut.print_fold(reaction.message)
 
 async def sendHelp(ctx):
     await ctx.channel.send("Wrong usage! Use !help to see a list of Commands")
