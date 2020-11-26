@@ -9,7 +9,7 @@ class Crawler:
 
     @staticmethod
     def getdata(url, name):
-        folder = os.getcwd() + "/RonaCrawl/data"
+        folder = os.getcwd() + "/data"
         try:
             response = requests.request("GET", url)
         except requests.exceptions.RequestException:
@@ -28,12 +28,12 @@ class Crawler:
         name = "%s_by_Country_%s_%s" % (d, country, datetime.now().timestamp())
         url = "https://corona-api.com/countries/%s" % country
         Crawler.getdata(url, name)
-        with open(os.getcwd() + "/RonaCrawl/data/%s.json" % name, "r") as file:
+        with open(os.getcwd() + "/data/%s.json" % name, "r") as file:
             json_dict = json.load(file)
             data = json_dict["data"]["timeline"]
             x_axis = list(map(lambda x: x["date"], filter(lambda n: n["date"] > date, data)))
             y_axis = list(map(lambda x: x[d], filter(lambda n: n["date"] > date, data)))
-        os.remove(os.getcwd() + "/RonaCrawl/data/%s.json" % name)
+        os.remove(os.getcwd() + "/data/%s.json" % name)
         x_axis.reverse()
         y_axis.reverse()
         return x_axis, y_axis
@@ -43,7 +43,7 @@ class Crawler:
         name = "stats_of_Country_%s_%s" % (country, datetime.now().timestamp())
         url = "https://corona-api.com/countries/%s" % country
         Crawler.getdata(url, name)
-        with open(os.getcwd() + "/RonaCrawl/data/%s.json" % name, "r") as file:
+        with open(os.getcwd() + "/data/%s.json" % name, "r") as file:
             json_dict = json.load(file)
             ret = {"Name": json_dict["data"]["name"]}
             date = json_dict["data"]["updated_at"]
@@ -53,7 +53,7 @@ class Crawler:
             calculated = latest_data.pop("calculated")
             ret["current Data"] = latest_data
             ret["calculated Data"] = calculated
-        os.remove(os.getcwd() + "/RonaCrawl/data/%s.json" % name)
+        os.remove(os.getcwd() + "/data/%s.json" % name)
         return ret
 
 

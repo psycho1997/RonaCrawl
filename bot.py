@@ -11,7 +11,7 @@ import os
 
 dut = None
 
-with open(os.getcwd() + "/RonaCrawl/data/settings.json") as file:
+with open(os.getcwd() + "/data/settings.json") as file:
     json_dict = json.load(file)
 token = json_dict["token"]
 bot = commands.Bot(command_prefix='!')
@@ -59,7 +59,7 @@ async def add(ctx, countries):
 
 @bot.command()
 async def country(ctx, *, c):
-    with open(os.getcwd() + "/RonaCrawl/data/iso_countries.json") as file:
+    with open(os.getcwd() + "/data/iso_countries.json") as file:
         json_dict = json.load(file)
     print(type(json_dict))
     for di in json_dict:
@@ -112,7 +112,7 @@ async def git(ctx):
 
 @bot.command()
 async def help(ctx):
-    with open(os.getcwd() + "/RonaCrawl/data/help.md")as file:
+    with open(os.getcwd() + "/data/help.md")as file:
         lines = file.readlines()
         msg = functools.reduce(lambda x, y: x + y, lines )
     await ctx.channel.send(msg)
