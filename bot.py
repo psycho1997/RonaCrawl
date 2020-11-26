@@ -7,10 +7,11 @@ import discord
 from datetime import  datetime
 import functools
 import json
+import os
 
 dut = None
 
-with open("data/settings.json") as file:
+with open(os.getcwd() + "/data/settings.json") as file:
     json_dict = json.load(file)
 token = json_dict["token"]
 bot = commands.Bot(command_prefix='!')
@@ -58,7 +59,7 @@ async def add(ctx, countries):
 
 @bot.command()
 async def country(ctx, *, c):
-    with open("data/iso_countries.json") as file:
+    with open(os.getcwd() + "/data/iso_countries.json") as file:
         json_dict = json.load(file)
     print(type(json_dict))
     for di in json_dict:
@@ -111,7 +112,7 @@ async def git(ctx):
 
 @bot.command()
 async def help(ctx):
-    with open("data/help.md")as file:
+    with open(os.getcwd() + "/data/help.md")as file:
         lines = file.readlines()
         msg = functools.reduce(lambda x, y: x + y, lines )
     await ctx.channel.send(msg)
@@ -145,14 +146,14 @@ async def sendHelp(ctx):
 
 
 async def renderText(ctx):
-    with open("data/stats.md", 'r') as file:
+    with open(os.getcwd() + "/data/stats.md", 'r') as file:
         lines = file.readlines()
         msg = functools.reduce(lambda x, y: x+y, lines )
         await ctx.channel.send(msg)
 
 
 async def renderGraph(ctx):
-    file = discord.File("data/output.png")
+    file = discord.File(os.getcwd() + "/data/output.png")
     await ctx.channel.send(file=file)
 
 
