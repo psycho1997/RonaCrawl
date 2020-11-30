@@ -15,5 +15,9 @@ class Number(Enum):
     JACK = 11
     TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN = range(2, 11)
 
-class Action():
+
+class Action(Enum):
     CHECK, RAISE, FOLD = ["\U00002B06", "\U00002714", "\U0000274C"]
+
+class Hands(Enum):
+    ROYAL, STRAIGHTF, QUADS, FH, FLUSH, STRAIGHT, TRIPS, TP, PAIR, HIGH = range(11,21)

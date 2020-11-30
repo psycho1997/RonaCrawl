@@ -1,8 +1,10 @@
+from builtins import print
+
 from poker.player import Player
 from poker.deck import Deck
 from poker.card import Card
 from poker.color import  *
-from functools import reduce
+from itertools import groupby, cycle, combinations
 import time
 import operator
 
@@ -170,39 +172,93 @@ class Game:
         #await self.print_table(ctx)
 
 
-    @staticmethod
-    def oracle(hands):
-        for hand in hands:
-            royal = True
-            straight = True
-            quad = True
-            fh = True
+
+    def oracle(self, hand):
+        royal = True
+        flush = False
+        fh = False
+        tp = False
+
+        colormap = list(map(lambda x: x.color.value, hand))
+        numbermap = list(map(lambda x: x.number.value, hand))
+        ref = colormap[0]
+        last = ref
+        max_number = 0
+        for number in numbermap:
+            occ = numbermap.count(number)
+            if occ > max_number:
+                max_number = occ
+
+        quad = max_number == 4
+        tripp = max_number == 3
+        pair = max_number == 2
+        sequenzes = list(self.groupSequence(set(numbermap)))
+        seq_map = list(map(lambda x: len(x), sequenzes))
+        print(seq_map)
+        straight = max(seq_map) >= 5
+
+        occ_map = list(map(lambda x: numbermap.count(x),numbermap))
+
+        for pair in combinations(occ_map, r=2):
+            if sum(pair) >= 5:
+                fh = True
+
+        max_color = 0
+        for color in colormap:
+            occ = colormap.count(color)
+            if occ > max_color:
+                max_color = occ
+        if max_color >= 5:
             flush = True
-            street = True
-            tripp = True
-            tp = True
-            pair = True
 
-            colormap = list(map(lambda x: x.color, [Card(Color.DIAMONDS, Number.ACE),Card(Color.HEARTS, Number.EIGHT)]))
-            numbermap = list(map(lambda x: x.number.value, [Card(Color.DIAMONDS, Number.ACE),Card(Color.HEARTS, Number.EIGHT)]))
-            ref = colormap[0]
-            last = ref
+        if {14, 13, 12, 11, 10}.issubset(set(numbermap)):
+            straight = True
+            royal &= flush
+        else:
+            royal = False
 
-            miss = 0
-            for color in colormap:
-                pass
+        max_val = max(set(numbermap))
+
+        if royal:
+            return Hands.ROYAL
+        elif straight and flush:
+            return Hands.STRAIGHTF
+        elif quad:
+            return Hands.QUADS
+        elif fh:
+            return Hands.FH
+        elif flush:
+            return Hands.FLUSH
+        elif straight:
+            return Hands.STRAIGHT
+        elif tripp:
+            return Hands.TRIPS
+        elif tp:
+            return Hands.TP
+        elif pair:
+            return Hands.PAIR
+        else:
+            return Hands.HIGH
 
 
-            if {14, 13, 12, 11, 10}.issubset(set(numbermap)):
-                street = True
-                royal &= flush
 
-            for i in range(len(colormap)):
-                pass
 
-            print(colormap)
-            print(numbermap)
+    @staticmethod
+    def groupSequence(l):
+        temp_list = cycle(l)
 
+        next(temp_list)
+        groups = groupby(l, key=lambda j: j + 1 == next(temp_list))
+        for k, v in groups:
+            if k:
+                yield tuple(v) + (next((next(groups)[1])),)
 
 if __name__ == '__main__':
-    Game.oracle([[1]])
+    dut = Game(100,10)
+    hand = dut.card_Deck.shuffle()
+    hand = dut.card_Deck.draw(7)
+    tmp = ""
+    for h in hand:
+        tmp += h.to_string()+ ";"
+    print(tmp)
+    print(dut.oracle(hand).name)
