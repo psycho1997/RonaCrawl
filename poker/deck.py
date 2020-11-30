@@ -11,10 +11,10 @@ class Deck:
     def init_deck(self):
         self.cards = []
         for i in range(2, 15):
-            self.cards.append(Card(Color.CLUBS, Suit(i)))
-            self.cards.append(Card(Color.SPADES, Suit(i)))
-            self.cards.append(Card(Color.HEARTS, Suit(i)))
-            self.cards.append(Card(Color.DIAMONDS, Suit(i)))
+            self.cards.append(Card(Color.CLUBS, Number(i)))
+            self.cards.append(Card(Color.SPADES, Number(i)))
+            self.cards.append(Card(Color.HEARTS, Number(i)))
+            self.cards.append(Card(Color.DIAMONDS, Number(i)))
 
     def draw(self, i=1):
         ret = []
