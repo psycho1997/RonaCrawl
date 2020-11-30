@@ -1,7 +1,10 @@
 from poker.player import Player
 from poker.deck import Deck
+from poker.card import Card
 from poker.color import  *
+from functools import reduce
 import time
+import operator
 
 
 class Game:
@@ -14,7 +17,6 @@ class Game:
         self.tableCards = []
         self.pots = []
         self.card_Deck = Deck()
-        self.card_Deck.shuffle()
         self.small_blind = small_blind
         self.small_blind_pos = 0
         self.currentbid = small_blind * 2
@@ -23,6 +25,7 @@ class Game:
 
     async def start(self, ctx):
         # deal cards
+        self.card_Deck.shuffle()
         self.players = self.all_players
         self.give_hands()
         await self.send_hands()
@@ -129,6 +132,7 @@ class Game:
         self.get_current_player().sub_money(n)
         self.pots[self.pot_id] += int(n)
         self.currentbid = self.pots[self.pot_id]
+        self.raise_mode = False
         await ctx.channel.send("Pot Raised!")
         await self.check_round_finish(ctx)
 
@@ -147,7 +151,7 @@ class Game:
             await self.check_round_finish(ctx)
 
     async def print_fold(self, ctx):
-        self.players.pop(self.round)
+        self.players.pop(self.round % len(self.players))
         await ctx.channel.send("Folded!")
         await self.check_round_finish(ctx)
 
@@ -166,3 +170,39 @@ class Game:
         #await self.print_table(ctx)
 
 
+    @staticmethod
+    def oracle(hands):
+        for hand in hands:
+            royal = True
+            straight = True
+            quad = True
+            fh = True
+            flush = True
+            street = True
+            tripp = True
+            tp = True
+            pair = True
+
+            colormap = list(map(lambda x: x.color, [Card(Color.DIAMONDS, Number.ACE),Card(Color.HEARTS, Number.EIGHT)]))
+            numbermap = list(map(lambda x: x.number.value, [Card(Color.DIAMONDS, Number.ACE),Card(Color.HEARTS, Number.EIGHT)]))
+            ref = colormap[0]
+            last = ref
+
+            miss = 0
+            for color in colormap:
+                pass
+
+
+            if {14, 13, 12, 11, 10}.issubset(set(numbermap)):
+                street = True
+                royal &= flush
+
+            for i in range(len(colormap)):
+                pass
+
+            print(colormap)
+            print(numbermap)
+
+
+if __name__ == '__main__':
+    Game.oracle([[1]])

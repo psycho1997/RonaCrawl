@@ -8,7 +8,7 @@ class Color(Enum):
     DIAMONDS = "\U00002666"
 
 
-class Suit(Enum):
+class Number(Enum):
     ACE = 14
     KING = 13
     QUEEN = 12
