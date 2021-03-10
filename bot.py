@@ -2,6 +2,7 @@ from util.composer import Composer
 from util.attributes import Attributes
 from discord.ext import commands
 from discord.utils import get
+import util.texComposer as tc
 import discord
 from datetime import  datetime
 import functools
@@ -75,6 +76,14 @@ async def help(ctx):
         lines = file.readlines()
         msg = functools.reduce(lambda x, y: x + y, lines )
     await ctx.channel.send(msg)
+
+@bot.command()
+async def tex(ctx, *s):
+    tmp = functools.reduce(lambda x,y: x+y, s)
+    print(tmp)
+    tc.writeTex(tmp)
+    file = discord.file(os.getcwd() + '/data/tmp.png')
+    await ctx.channel.send(file)
 
 @bot.event
 async def on_reaction_add(reaction, user):
