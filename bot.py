@@ -82,7 +82,7 @@ async def tex(ctx, *s):
     tmp = functools.reduce(lambda x,y: x+y, s)
     print(tmp)
     tc.writeTex(tmp)
-    f = discord.file(os.getcwd() + '/data/tmp.png')
+    f = discord.File(os.getcwd() + '/data/tmp.png')
     await ctx.channel.send(f)
 
 @bot.event
