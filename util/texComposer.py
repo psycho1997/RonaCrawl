@@ -1,8 +1,8 @@
 import os
 import subprocess
 
-in_path = "/../data/template.tex"
-out_path = "/../data/tmp.tex"
+in_path = "/data/template.tex"
+out_path = "/data/tmp.tex"
 
 
 def writeTex(s):
@@ -13,5 +13,5 @@ def writeTex(s):
             f_out.write(tmp)
             f_out.close()
         f_in.close()
-    subprocess.run("cd ../data; pdflatex -shell-escape tmp.tex", shell=True)
+    subprocess.run("cd /data; pdflatex -shell-escape tmp.tex", shell=True)
 
