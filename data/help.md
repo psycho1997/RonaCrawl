@@ -1,4 +1,4 @@
-**RonaCrawl by PsYcHo**
+**TrashBot by PsYcHo**
 ```
 - !help             display this message
 - !country [name]   responds with ISO 3166-1 alpha-2 code for the Country
