@@ -3,10 +3,7 @@
 - !help             display this message
 - !country [name]   responds with ISO 3166-1 alpha-2 code for the Country
 - !git              displays repo information
-- !poker [geld] [smallblind] creates a pokertable and joins author
-- !join                      join to pokergame that hasn't started
-- !cont                      print pokertable
-- !start                     starts a new Round (caution! currently works mid game)
+- !git [tex]*       Renders a short LaTeX equation (one line only)
 - !rona [atribute] [date]* [country]**
     responds with the requested data:
     -> attribute: 
