@@ -83,7 +83,7 @@ async def tex(ctx, *s):
     print(tmp)
     tc.writeTex(tmp)
     f = discord.File(os.getcwd() + '/data/tmp.png')
-    await ctx.channel.send(f)
+    await ctx.channel.send(file=f)
 
 @bot.event
 async def on_reaction_add(reaction, user):
