@@ -1,7 +1,6 @@
 from util.composer import Composer
 from util.attributes import Attributes
 from discord.ext import commands
-from poker.game2 import Game
 from discord.utils import get
 import discord
 from datetime import  datetime
