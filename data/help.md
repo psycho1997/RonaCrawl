@@ -3,7 +3,7 @@
 - !help             display this message
 - !country [name]   responds with ISO 3166-1 alpha-2 code for the Country
 - !git              displays repo information
-- !git [tex]*       Renders a short LaTeX equation (one line only)
+- !tex [LaTex]*       Renders a short LaTeX equation (one line only)
 - !rona [atribute] [date]* [country]**
     responds with the requested data:
     -> attribute: 
