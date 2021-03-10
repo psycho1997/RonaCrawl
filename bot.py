@@ -79,7 +79,7 @@ async def help(ctx):
 
 @bot.command()
 async def tex(ctx, *s):
-    tmp = functools.reduce(lambda x,y: x+y, s)
+    tmp = functools.reduce(lambda x,y: x+" "+y, s)
     print(tmp)
     tc.writeTex(tmp)
     f = discord.File(os.getcwd() + '/data/tmp.png')
