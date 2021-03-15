@@ -8,6 +8,7 @@ from datetime import  datetime
 import functools
 import json
 import os
+import sys
 
 
 with open(os.getcwd() + "/data/settings.json") as file:
@@ -88,6 +89,7 @@ async def tex(ctx, *s):
 @bot.command()
 async def p(ctx):
     print("Ping!")
+    sys.stdout.flush()
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -113,6 +115,7 @@ async def renderGraph(ctx):
 @bot.event
 async def on_ready():
     print('We have logged in as {0}'.format(bot.user))
+    sys.stdout.flush()
 
 
 
