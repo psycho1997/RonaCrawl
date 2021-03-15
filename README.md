@@ -6,6 +6,7 @@
 ```` 
 pip3 install matplotlib
 pip3 install discord.py
+pip3 install requests
 
 ````
 

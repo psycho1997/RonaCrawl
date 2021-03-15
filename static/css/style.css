@@ -1,0 +1,14 @@
+
+.console{
+    margin-bottom: unset;
+    color: lawngreen;
+    background: black;
+    overflow: scroll;
+    height: 400px;
+}
+h1 {
+    border: 2px #eee solid;
+    color: brown;
+    text-align: center;
+    padding: 10px;
+}

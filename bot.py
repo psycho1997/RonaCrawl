@@ -85,6 +85,10 @@ async def tex(ctx, *s):
     f = discord.File(os.getcwd() + '/data/tmp.png')
     await ctx.channel.send(file=f)
 
+@bot.command()
+async def p(ctx):
+    print("Ping!")
+
 @bot.event
 async def on_reaction_add(reaction, user):
     if user != bot.user and str(reaction) == "🗑":
