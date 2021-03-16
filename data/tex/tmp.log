@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.3.10)  10 MAR 2021 14:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2021.3.14)  16 MAR 2021 12:54
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -60,18 +60,21 @@ runsystem(pdflatex  -shell-escape  -jobname 'tmp' '\expandafter\def\csname sa@i
 nternal@run\endcsname{1}\input{tmp}')...executed.
 
 \sa@read=\read2
-runsystem(convert -density 900 -units PixelsPerInch tmp.pdf -resize 1080x800 -q
-uality 90 tmp.png)...executed.
+runsystem(convert -density 300 -units PixelsPerInch tmp.pdf -resize 800x600 -qu
+ality 90 tmp.png)...executed.
 
 
-Class standalone:
-Output written on tmp.png.
+
+Class standalone Warning: Conversion unsuccessful!
+(standalone)              There might be something wrong with your
+(standalone)              conversation software or the file permissions!
+
  ) )
 (\end occurred when \ifx on line 2 was incomplete) 
 Here is how much of TeX's memory you used:
  763 strings out of 481252
  11761 string characters out of 5915888
- 280413 words of memory out of 5000000
+ 280547 words of memory out of 5000000
  17763 multiletter control sequences out of 15000+600000
  403430 words of font info for 27 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -83,12 +86,7 @@ PDF statistics:
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-line 499.
-LaTeX Info: Redefining \cdots on input line 620.
-\Mathstrutbox@=\box48
-\strutbox@=\box49
-\big@size=\dimen141
-LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+ing font encoding OML on input line 743.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
 \macc@depth=\count193
 \c@MaxMatrixCols=\count194
@@ -141,7 +139,7 @@ LaTeX Font Info:    ... okay on input line 3.
 Here is how much of TeX's memory you used:
  1585 strings out of 481252
  24092 string characters out of 5915888
- 294628 words of memory out of 5000000
+ 294623 words of memory out of 5000000
  18558 multiletter control sequences out of 15000+600000
  403884 words of font info for 29 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191

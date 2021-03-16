@@ -14,6 +14,12 @@
               color: limegreen;
               background: black;
           }
+          .extra .container{
+              overflow: inherit;
+              height: inherit;
+              color: inherit;
+              background: inherit;
+          }
           dd{
               margin-bottom: 0px;
           }
@@ -29,13 +35,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="http://raspberrypi:631">CUPS</a>
             </li>
             </ul>
         </div>
     </nav>
     <div class="container">
         {% block content1 %} {% endblock %}
+    </div>
+    <div class="extra">
+        {% block content2 %} {% endblock %}
     </div>
 
 

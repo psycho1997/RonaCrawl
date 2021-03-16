@@ -14,6 +14,10 @@ class Composer:
         self.date = date
         self.dict = {}
         self.len = math.inf
+        with open(os.getcwd() + "/data/settings.json") as file:
+            json_dict = json.load(file)
+        self.texdir = json_dict["texdir"]
+        self.ronadir = json_dict["ronadir"]
 
         if atr == Attributes.STATS.name:
             stats = Crawler.getStatsByCountry(countrys)
@@ -55,7 +59,7 @@ class Composer:
             if n % every_nth != 0:
                 label.set_visible(False)
 
-        plt.savefig(os.getcwd() + "/data/output.png")
+        plt.savefig(os.path.join(os.getcwd(), self.ronadir, "output.png"))
        # plt.show()
 
     def saveStats(self, stats):
@@ -93,7 +97,7 @@ class Composer:
             rec=stats["calculated Data"]["recovery_rate"],
             cpm=stats["calculated Data"]["cases_per_million_population"])
 
-        with open(os.getcwd() + "/data/stats.md" , 'w') as file:
+        with open(os.path.join(os.getcwd(), self.ronadir, "stats.md") , 'w') as file:
             file.writelines(s)
 
 if __name__ == '__main__':
