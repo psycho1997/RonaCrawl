@@ -1,21 +1,20 @@
-#RonaCrawl
-##Intro:
+# RonaCrawl
+## Intro:
  I forgot to add comments -.-
  
-#Requirements
+# Requirements
 ```` 
-pip3 install matplotlib
-pip3 install discord.py
-pip3 install requests
+python -m pip install -r requirements.txt
 
 ````
 
-##Usage
- **RonaCrawl by PsYcHo**
+## Usage
+ **TrashBot by PsYcHo**
 ```
 - !help             display this message
 - !country [name]   responds with ISO 3166-1 alpha-2 code for the Country
 - !git              displays repo information
+- !tex [LaTex]*       Renders a short LaTeX equation (one line only)
 - !rona [atribute] [date]* [country]**
     responds with the requested data:
     -> attribute: 
